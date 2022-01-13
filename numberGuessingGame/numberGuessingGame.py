@@ -28,7 +28,6 @@ def make_a_guess(guesses):
     random_number = random.randint(0,100)
     user_guess = 500
 
-    print(f"{random_number}")
     while guesses_left > 0 and user_guess != random_number:
         print(f"You have {guesses_left} attempts remaining to guess the number.\n")
 
