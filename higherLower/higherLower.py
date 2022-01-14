@@ -31,9 +31,9 @@ def get_new_entry(A_followers):
     return new_entry
 
 def print_compare(compareA, compareB):
-    print(f"Compare A: {compareA['name']}, a {compareA['description']}, from {compareA['country']}, {compareA['follower_count']}")
+    print(f"Compare A: {compareA['name']}, a {compareA['description']}, from {compareA['country']}")
     print("vs")
-    print(f"Compare B: {compareB['name']}, a {compareB['description']}, from {compareB['country']}, {compareB['follower_count']}")
+    print(f"Compare B: {compareB['name']}, a {compareB['description']}, from {compareB['country']}")
 
 score = 0
 intro()
