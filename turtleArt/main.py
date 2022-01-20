@@ -4,13 +4,17 @@
 # 100DaysOfCoding
 
 
-from turtle import Turtle, Screen
+# from turtle import Turtle
+import turtle as t
 import random 
 
-my_turtle = Turtle()
+my_turtle = t.Turtle()
 my_turtle.shape("turtle")
 my_turtle.speed(0)
-my_turtle.pensize(20)
+my_turtle.pensize(1)
+
+# color mode is from the class turtle, not our object
+t.colormode(255)
 
 # for _ in range(15):
 #     my_turtle.forward(10)
@@ -35,28 +39,34 @@ my_turtle.pensize(20)
 #     draw_shape(num_of_sides)
 #     num_of_sides += 1
 
-def random_color():
-    colors = ["red", "blue", "green", "maroon", "cyan", "aqua", "gold", "brown"]
-    return random.choice(colors)
+# def random_color():
+#     colors = ["red", "blue", "green", "maroon", "cyan", "aqua", "gold", "brown"]
+#     return random.choice(colors)
 
-def random_move(self):
-    num = random.randint(0,1)
-    if num == 0:
-        self.right(90)
-        self.forward(50)
-    else:
-        self.left(90)
-        self.forward(50)
+def random_rgb():
+    r = random.randint(0,255)
+    g = random.randint(0,255)
+    b = random.randint(0,255)
+    return (r, g, b)
 
+# def random_move(self):
+#     num = random.randint(0,1)
+#     if num == 0:
+#         self.right(90)
+#         self.forward(50)
+#     else:
+#         self.left(90)
+#         self.forward(50)
 
-my_turtle.speed(0)
-my_turtle.pensize(10)
+def draw(gap_size):
+    for _ in range(int(360 / gap_size)):
+        my_turtle.color(random_rgb())
+        # random_move(my_turtle)
+        my_turtle.circle(100)
+        my_turtle.left(gap_size)
+    
 
-i=0
-while i < 100:
-    my_turtle.color(random_color())
-    random_move(my_turtle)
-    i += 1
+draw(4)
 
-screen = Screen()
+screen = t.Screen()
 screen.exitonclick()
