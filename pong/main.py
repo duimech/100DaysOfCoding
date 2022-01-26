@@ -1,6 +1,6 @@
 # This program is the pong game.
 # Author: Ray Bolin
-# Date: 1/23/2022
+# Date: 1/26/2022
 # 100DaysOfCoding
 
 from turtle import Screen
@@ -36,11 +36,9 @@ while game_running:
     if ball.xcor() > 320 and ball.distance(right_paddle) < 50:
         ball.leftright = "left"
         ball.move_speed *= 0.9
-        print(ball.move_speed)
     elif ball.xcor() < -320 and ball.distance(left_paddle) < 50:
         ball.leftright = "right"
         ball.move_speed *= 0.9
-        print(ball.move_speed)
 
 
     if ball.xcor() > 380:
