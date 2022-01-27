@@ -28,8 +28,20 @@ class Snake:
 
     def extend_snake(self):
         self.add_segment(self.segment_list[-1].position())
+
+
+    def reset(self):
+        # Move the snake off the screen before resetting it
+        for segment in self.segment_list:
+            segment.setposition(900,0)
+
+        self.segment_list.clear()
+        self.create_snake()
+        self.head = self.segment_list[0]
+
     
     def add_segment(self, position):
+        # The snake is just a list of segments
         new_segment = Turtle()
         new_segment.color("white")
         new_segment.shape("square")
