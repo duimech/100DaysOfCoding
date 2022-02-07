@@ -1,12 +1,15 @@
 # This program is a graphical password manager and password generator. 
 # Author: Ray Bolin
-# Date: 2/4/2022
+# Date: 2/5/2022
 # 100DaysOfCoding
 
 from tkinter import *
 from tkinter import messagebox
 import random
+from numpy import save
 import pyperclip
+import json
+from json.decoder import JSONDecodeError
 
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 
@@ -44,20 +47,61 @@ def save_password():
     website = in_website.get()
     email = in_email_username.get()
     password = in_password.get()
+    json_dictionary = {
+        website: {
+            "email": email,
+            "password": password
+        }
+    }
 
     if len(website) == 0 or len(email) == 0 or len(password) == 0:
         messagebox.showinfo(title="Oops", message="Fill in all of the fields.")
     else:
-        is_ok = messagebox.askokcancel(title=website, message=f"Confirm the details:\n \n Website: {website}\nEmail: {email}\n Password: {password}")
+        try:
+            # Read existing data
+            with open("100DaysOfCoding/passwordManager/data.json", mode="r") as data:
+                data_contents = json.load(data)
 
-        if is_ok:
-            with open("100DaysOfCoding/passwordManager/data.txt", mode="a") as data:
-                data.write(f"{website} | {email} | {password} \n")
+        except FileNotFoundError:
+            # Create the file if it doesnt exist and write the data
+            with open("100DaysOfCoding/passwordManager/data.json", mode="w") as data:
+                json.dump(json_dictionary, data, indent=4)
 
+        else:
+            # Update old data with new data
+            data_contents.update(json_dictionary)
+
+            # Save the updated data
+            with open("100DaysOfCoding/passwordManager/data.json", mode="w") as data:
+                json.dump(data_contents, data, indent=4)
+
+        finally:
+            # Empty the fields and show a confirmation
             in_website.delete(0,END)
             in_password.delete(0,END)
 
             messagebox.showinfo(title="Confirmation", message="The password has been added successfully.")
+
+# ---------------------------- FIND PASSWORD ------------------------------- #
+
+def search():
+    search_site = in_website.get()
+    try:
+        with open("100DaysOfCoding/passwordManager/data.json", mode="r") as data:
+            data_contents = json.load(data)
+
+    except FileNotFoundError:
+        messagebox.showerror(title="Error", message="File not found.")
+    
+    else:
+        if search_site in data_contents:
+            result_dictionary = data_contents[search_site]
+            result_email = result_dictionary["email"]
+            result_password = result_dictionary["password"]
+            messagebox.showinfo(title="Search Results", message=f"Email: {result_email} \nPassword: {result_password}")
+        else:
+            messagebox.showinfo(title="Search Results", message=f"No entries found.")
+
 
 # ---------------------------- UI SETUP ------------------------------- #
 
@@ -75,9 +119,11 @@ canvas.grid(row=0, column=1)
 # Website
 lbl_website = Label(text="Website:")
 lbl_website.grid(row=1, column=0)
-in_website = Entry(width=45)
+in_website = Entry(width=25)
 in_website.focus()
-in_website.grid(row=1, column=1, columnspan=2)
+in_website.grid(row=1, column=1)
+btn_search = Button(text="Search", width=16, command=search)
+btn_search.grid(row=1, column=2)
 
 # Email and Username 
 lbl_email_username = Label(text="Email/Username:")
