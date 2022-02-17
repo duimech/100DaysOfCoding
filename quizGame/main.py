@@ -1,24 +1,34 @@
+# This is an object oriented program that was upgraded to get random questions from an API and uses a graphical interface as a quiz.
+# Author: Ray Bolin
+# Date: 2/16/2022
+# 100DaysOfCoding
+
 from question_model import Question
 from data import question_data
 from quiz_brain import QuizBrain
+from ui import QuizInterface
 
 # List of objects containing questions and answers
 question_bank = []
 
 # Create an object for each question containing the question and the answer
 for item in question_data:
-    question = Question(item["text"], item["answer"] )
+    question = Question(item["question"], item["correct_answer"] )
     question_bank.append(question)
 
 # Create the quiz using a list of objects 
 quiz = QuizBrain(question_bank)
 
+# Pass the quiz to the UI
+quiz_ui = QuizInterface(quiz)
+
+
 # Keep asking questions until there are no more questions
-while quiz.still_has_questions():
-    quiz.next_question()
+# while quiz.still_has_questions():
+#     quiz.next_question()
 
 # Show users final score
-quiz.final_score()
+# quiz.final_score()
 
 
 # Procedural:
